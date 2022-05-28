@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,22 +8,25 @@ datasource db {
 }
 
 model User {
-  id         Int          @id @default(autoincrement())
-  email      String       @unique @db.VarChar(255)
-  password   String       @db.VarChar(255)
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
+  id         Int         @id @default(autoincrement())
+  email      String      @unique @db.VarChar(255)
+  password   String      @db.VarChar(255)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  Enrollment Enrollment?
   Session    Session[]
-  Enrollment Enrollment[]
+
+  @@map("users")
 }
 
 model Session {
   id        Int      @id @default(autoincrement())
   userId    Int
-  User      User     @relation(fields: [userId], references: [id])
   token     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  User      User     @relation(fields: [userId], references: [id])
+  @@map("sessions")
 }
 
 model Event {
@@ -38,19 +38,21 @@ model Event {
   endsAt             DateTime
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+  @@map("events")
 }
 
 model Enrollment {
-  id        Int       @id @default(autoincrement())
-  name      String    @db.VarChar(255)
-  cpf       String    @db.VarChar(255)
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  cpf       String   @db.VarChar(255)
   birthday  DateTime
-  phone     String    @db.VarChar(255)
-  userId    Int       @unique
-  User      User      @relation(fields: [userId], references: [id])
-  Address   Address[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  phone     String   @db.VarChar(255)
+  userId    Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  User      User     @relation(fields: [userId], references: [id])
+  Address   Address?
+  @@map("enrollments")
 }
 
 model Address {
@@ -63,7 +65,19 @@ model Address {
   neighborhood  String     @db.VarChar(255)
   addressDetail String?    @db.VarChar(255)
   enrollmentId  Int        @unique
-  Enrollment    Enrollment @relation(fields: [enrollmentId], references: [id])
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
+  Enrollment    Enrollment @relation(fields: [enrollmentId], references: [id])
+  @@map("adresses")
 }
+
+model Ticket {
+  id Int @id @default(autoincrement())
+  isVirtual Boolean
+  description String
+
+  @@map("tickets")
+}
+
+
+
