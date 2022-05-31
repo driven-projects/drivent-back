@@ -90,7 +90,7 @@ model EventTicket {
   Ticket Ticket @relation(fields: [ticketId], references: [id])
   price Int
   name String?
-  hotelPrice Int
+  hotelPrice Int?
   EnrollmentTicket EnrollmentTicket[]
 
   @@map("eventTickets")

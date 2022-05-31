@@ -48,7 +48,7 @@ async function main() {
         ticketId : 2,
         price : 100,
         name : null,
-        hotelPrice : 0
+        hotelPrice : null
       }
     })
   }
