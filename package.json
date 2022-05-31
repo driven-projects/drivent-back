@@ -15,7 +15,7 @@
     "test:migration:run": "npm run test:load-envs prisma migrate deploy",
     "test:migration:generate": "npm run test:load-envs prisma migrate dev",
     "test:watch": "jest --watch --passWithNoTests --runInBand",
-    "test:docker": "npm run test:compose -- up",
+    "test:docker": "npm run test:compose -- up --build",
     "test:compose": "docker-compose -f docker-compose.test.yml --env-file .env.test",
     "test:postgres": "npm run test:compose -- up -d drivent-postgres-test",
     "test:postgres:down": "npm run test:compose -- down -v",
