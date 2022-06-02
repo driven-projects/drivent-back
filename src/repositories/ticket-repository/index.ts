@@ -9,11 +9,15 @@ async function findAllByEventUniqueId(id: number) {
       id: true,
       price: true,
       name: true,
-      hotelPrice: true,
       Ticket: {
         select: {
           isVirtual: true,
           description: true,
+        },
+      },
+      Event: {
+        select: {
+          hotelPrice: true,
         },
       },
     },

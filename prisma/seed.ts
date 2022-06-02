@@ -12,6 +12,7 @@ async function main() {
         backgroundImageUrl: 'linear-gradient(to right, #FA4098, #FFD77F)',
         startsAt: dayjs().toDate(),
         endsAt: dayjs().add(21, 'days').toDate(),
+        hotelPrice : 350
       },
     });
   }
@@ -39,7 +40,6 @@ async function main() {
         ticketId : 1,
         price : 250,
         name : null,
-        hotelPrice : 350
       }
     })
     await prisma.eventTicket.create({
@@ -48,7 +48,6 @@ async function main() {
         ticketId : 2,
         price : 100,
         name : null,
-        hotelPrice : null
       }
     })
   }
