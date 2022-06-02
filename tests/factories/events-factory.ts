@@ -11,6 +11,7 @@ export function createEvent(params: Partial<Event> = {}): Promise<Event> {
       logoImageUrl: params.logoImageUrl || faker.image.imageUrl(),
       startsAt: params.startsAt || dayjs().subtract(1, 'day').toDate(),
       endsAt: params.endsAt || dayjs().add(5, 'days').toDate(),
+      hotelPrice: 350,
     },
   });
 }

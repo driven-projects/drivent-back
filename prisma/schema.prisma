@@ -37,6 +37,7 @@ model Event {
   startsAt           DateTime
   endsAt             DateTime
   EventTicket EventTicket[]
+  hotelPrice Int?
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
   @@map("events")
@@ -90,7 +91,6 @@ model EventTicket {
   Ticket Ticket @relation(fields: [ticketId], references: [id])
   price Int
   name String?
-  hotelPrice Int?
   EnrollmentTicket EnrollmentTicket[]
 
   @@map("eventTickets")
