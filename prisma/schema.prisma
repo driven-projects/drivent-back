@@ -104,6 +104,7 @@ model EnrollmentTicket {
   EventTicket EventTicket @relation(fields: [eventTicketId], references: [id])
   roomId Int? 
   Room Room? @relation(fields: [roomId], references: [id])
+  withHotel Boolean
   @@map("enrollmentTicket")
 }
 
