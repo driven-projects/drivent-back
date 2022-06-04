@@ -11,6 +11,23 @@ async function createEnrollmentTicket({ enrollmentId, eventTicketId, withHotel }
       withHotel,
       roomId: null,
     },
+    include: {
+      EventTicket: {
+        select: {
+          price: true,
+          Event: {
+            select: {
+              hotelPrice: true,
+            },
+          },
+          Ticket: {
+            select: {
+              description: true,
+            },
+          },
+        },
+      },
+    },
   });
 }
 
