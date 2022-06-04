@@ -6,6 +6,7 @@ import { createSession } from './factories/sessions-factory';
 import { prisma } from '@/config';
 
 export async function cleanDb() {
+  await prisma.enrollmentTicket.deleteMany({});
   await prisma.address.deleteMany({});
   await prisma.enrollment.deleteMany({});
   await prisma.eventTicket.deleteMany({});

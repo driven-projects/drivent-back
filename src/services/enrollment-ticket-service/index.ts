@@ -1,4 +1,3 @@
-import ticketRepository from '@/repositories/ticket-repository';
 import enrollmentRepository from '@/repositories/enrollment-repository';
 import { conflictError, notFoundError } from '@/errors';
 import eventTicketsRepository from '@/repositories/event-ticket-repository';

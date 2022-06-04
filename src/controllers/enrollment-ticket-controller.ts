@@ -1,5 +1,4 @@
 import { AuthenticatedRequest } from '@/middlewares';
-import enrollmentsService from '@/services/enrollments-service';
 import { Response } from 'express';
 import httpStatus from 'http-status';
 import enrollmentTicket from '@/services/enrollment-ticket-service';
