@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,46 +8,57 @@ datasource db {
 }
 
 model User {
-  id         Int          @id @default(autoincrement())
-  email      String       @unique @db.VarChar(255)
-  password   String       @db.VarChar(255)
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
+  id         Int         @id @default(autoincrement())
+  email      String      @unique @db.VarChar(255)
+  password   String      @db.VarChar(255)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  Enrollment Enrollment?
   Session    Session[]
-  Enrollment Enrollment[]
+
+  @@map("users")
 }
 
 model Session {
   id        Int      @id @default(autoincrement())
   userId    Int
-  User      User     @relation(fields: [userId], references: [id])
   token     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  User      User     @relation(fields: [userId], references: [id])
+
+  @@map("sessions")
 }
 
 model Event {
-  id                 Int      @id @default(autoincrement())
-  title              String   @db.VarChar(255)
-  backgroundImageUrl String   @db.VarChar(255)
-  logoImageUrl       String   @db.VarChar(255)
+  id                 Int           @id @default(autoincrement())
+  title              String        @db.VarChar(255)
+  backgroundImageUrl String        @db.VarChar(255)
+  logoImageUrl       String        @db.VarChar(255)
   startsAt           DateTime
   endsAt             DateTime
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  EventTicket        EventTicket[]
+  hotelPrice         Int?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  @@map("events")
 }
 
 model Enrollment {
-  id        Int       @id @default(autoincrement())
-  name      String    @db.VarChar(255)
-  cpf       String    @db.VarChar(255)
-  birthday  DateTime
-  phone     String    @db.VarChar(255)
-  userId    Int       @unique
-  User      User      @relation(fields: [userId], references: [id])
-  Address   Address[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id               Int                @id @default(autoincrement())
+  name             String             @db.VarChar(255)
+  cpf              String             @db.VarChar(255)
+  birthday         DateTime
+  phone            String             @db.VarChar(255)
+  userId           Int                @unique
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  User             User               @relation(fields: [userId], references: [id])
+  Address          Address[]
+  EnrollmentTicket EnrollmentTicket[]
+
+  @@map("enrollments")
 }
 
 model Address {
@@ -63,7 +71,74 @@ model Address {
   neighborhood  String     @db.VarChar(255)
   addressDetail String?    @db.VarChar(255)
   enrollmentId  Int        @unique
-  Enrollment    Enrollment @relation(fields: [enrollmentId], references: [id])
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
+  Enrollment    Enrollment @relation(fields: [enrollmentId], references: [id])
+
+  @@map("adresses")
+}
+
+model Ticket {
+  id          Int           @id @default(autoincrement())
+  isVirtual   Boolean
+  description String
+  EventTicket EventTicket[]
+
+  @@map("tickets")
+}
+
+model EventTicket {
+  id               Int                @id @default(autoincrement())
+  eventId          Int
+  Event            Event              @relation(fields: [eventId], references: [id])
+  ticketId         Int
+  Ticket           Ticket             @relation(fields: [ticketId], references: [id])
+  price            Int
+  name             String?
+  EnrollmentTicket EnrollmentTicket[]
+
+  @@map("eventTickets")
+}
+
+model EnrollmentTicket {
+  id            Int         @id @default(autoincrement())
+  enrollmentId  Int
+  Enrollment    Enrollment  @relation(fields: [enrollmentId], references: [id])
+  eventTicketId Int
+  EventTicket   EventTicket @relation(fields: [eventTicketId], references: [id])
+  roomId        Int?
+  Room          Room?       @relation(fields: [roomId], references: [id])
+  withHotel     Boolean
+
+  @@map("enrollmentTicket")
+}
+
+model Room {
+  id               Int                @id @default(autoincrement())
+  hotelId          Int
+  Hotel            Hotel              @relation(fields: [hotelId], references: [id])
+  number           String
+  styleId          Int
+  Room             RoomStyle          @relation(fields: [styleId], references: [id])
+  EnrollmentTicket EnrollmentTicket[]
+
+  @@map("rooms")
+}
+
+model RoomStyle {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  beds Int
+  Room Room[]
+
+  @@map("roomStyle")
+}
+
+model Hotel {
+  id        Int    @id @default(autoincrement())
+  name      String @unique
+  imagePath String
+  Room      Room[]
+
+  @@map("hotels")
 }

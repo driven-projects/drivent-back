@@ -12,11 +12,48 @@ async function main() {
         backgroundImageUrl: 'linear-gradient(to right, #FA4098, #FFD77F)',
         startsAt: dayjs().toDate(),
         endsAt: dayjs().add(21, 'days').toDate(),
+        hotelPrice : 350
       },
     });
   }
+  let tickets = await prisma.ticket.findFirst();
+  if (!tickets) {
+     await prisma.ticket.create({
+      data: {
+        isVirtual: false,
+        description : "Presencial"
+      },
+    });
+    
+     await prisma.ticket.create({
+      data: {
+        isVirtual: true,
+        description : "Online"
+      },
+    });
+  }
+  let eventTicket = await prisma.eventTicket.findFirst()
+  if(!eventTicket) {
+    await prisma.eventTicket.create({
+      data : {
+        eventId : 1,
+        ticketId : 1,
+        price : 250,
+        name : null,
+      }
+    })
+    await prisma.eventTicket.create({
+      data : {
+        eventId : 1,
+        ticketId : 2,
+        price : 100,
+        name : null,
+      }
+    })
+  }
 
   console.log({ event });
+  
 }
 
 main()
