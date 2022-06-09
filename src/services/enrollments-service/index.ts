@@ -2,7 +2,7 @@ import { notFoundError } from '@/errors';
 import addressRepository, { CreateAddressParams } from '@/repositories/address-repository';
 import enrollmentRepository, { CreateEnrollmentParams } from '@/repositories/enrollment-repository';
 import { exclude } from '@/utils/prisma-utils';
-import { Address, Enrollment } from '@prisma/client';
+import { Address, Enrollment, Payment } from '@prisma/client';
 
 async function getOneWithAddressByUserId(userId: number): Promise<GetOneWithAddressByUserIdResult> {
   const enrollmentWithAddress = await enrollmentRepository.findWithAddressByUserId(userId);
@@ -12,9 +12,13 @@ async function getOneWithAddressByUserId(userId: number): Promise<GetOneWithAddr
   const [firstAddress] = enrollmentWithAddress.Address;
   const address = getFirstAddress(firstAddress);
 
+  const [firstPayment] = enrollmentWithAddress.Payment;
+  const payment = getFirstPayment(firstPayment);
+
   return {
-    ...exclude(enrollmentWithAddress, 'userId', 'createdAt', 'updatedAt', 'Address'),
+    ...exclude(enrollmentWithAddress, 'userId', 'createdAt', 'updatedAt', 'Address', 'Payment'),
     ...(!!address && { address }),
+    ...(!!payment && { payment }),
   };
 }
 
@@ -26,7 +30,15 @@ function getFirstAddress(firstAddress: Address): GetAddressResult {
   return exclude(firstAddress, 'createdAt', 'updatedAt', 'enrollmentId');
 }
 
+function getFirstPayment(firstPayment: Payment): GetPaymentResult {
+  if (!firstPayment) return null;
+
+  return exclude(firstPayment, 'createdAt', 'updatedAt', 'enrollmentId');
+}
+
 type GetAddressResult = Omit<Address, 'createdAt' | 'updatedAt' | 'enrollmentId'>;
+
+type GetPaymentResult = Omit<Payment, 'createdAt' | 'updatedAt' | 'enrollmentId'>;
 
 async function createOrUpdateEnrollmentWithAddress(params: CreateOrUpdateEnrollmentWithAddress) {
   const enrollment = exclude(params, 'address');
