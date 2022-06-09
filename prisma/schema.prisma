@@ -19,6 +19,7 @@ model User {
   Session    Session[]
   Enrollment Enrollment[]
   ticketData ticketData[]
+  Vacancies  Vacancies[]
 }
 
 model Session {
@@ -76,4 +77,35 @@ model ticketData {
   accomodation Boolean
   userId       Int     @unique
   User         User    @relation(fields: [userId], references: [id])
+}
+
+model Hotels {
+  id       Int        @id @default(autoincrement())
+  name     String     @db.VarChar(255)
+  image    String     @db.VarChar(255)
+  Bedrooms Bedrooms[]
+}
+
+model Bedrooms {
+  id      Int         @id @default(autoincrement())
+  number  Int
+  hotelId Int
+  type    Type
+  Hotel   Hotels      @relation(fields: [hotelId], references: [id])
+  Vacancy Vacancies[]
+}
+
+model Vacancies {
+  id          Int      @id @default(autoincrement())
+  isAvailable Boolean
+  bedroomId   Int
+  userId      Int      @unique
+  Bedroom     Bedrooms @relation(fields: [bedroomId], references: [id])
+  User        User     @relation(fields: [userId], references: [id])
+}
+
+enum Type {
+  SINGLE
+  DOUBLE
+  TRIPLE
 }
