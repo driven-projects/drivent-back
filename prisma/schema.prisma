@@ -99,9 +99,9 @@ model Vacancies {
   id          Int      @id @default(autoincrement())
   isAvailable Boolean
   bedroomId   Int
-  userId      Int      @unique
+  userId      Int?      @unique
   Bedroom     Bedrooms @relation(fields: [bedroomId], references: [id])
-  User        User     @relation(fields: [userId], references: [id])
+  User        User?    @relation(fields: [userId], references: [id])
 }
 
 enum Type {
