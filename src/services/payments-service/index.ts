@@ -2,7 +2,7 @@ import { ticketInfo } from '@/controllers/payments-controller';
 import { notFoundError } from '@/errors';
 import paymentsRepository from '@/repositories/payments-repository';
 
-async function create(ticket: ticketInfo) {
+export async function create(ticket: ticketInfo) {
   await paymentsRepository.create(ticket);
 }
 
@@ -19,4 +19,4 @@ const paymentsService = {
   get,
 };
 
-export default paymentsService;
+// export default paymentsService;
