@@ -7,9 +7,8 @@ import httpStatus from 'http-status';
 export type ticketInfo = Omit<ticketData, 'id'>;
 
 export async function createTicket(req: AuthenticatedRequest, res: Response) {
-  const ticketData: Omit<ticketInfo, 'userId'> = req.body;
-  const { userId } = req;
+  const ticketData: ticketInfo = req.body;
 
-  await paymentsService.create({ ...ticketData, userId });
+  await paymentsService.create(ticketData);
   return res.sendStatus(httpStatus.OK);
 }
