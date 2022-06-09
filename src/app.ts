@@ -3,12 +3,14 @@ import 'express-async-errors';
 import express, { Express } from 'express';
 import cors from 'cors';
 
-import { loadEnv, connectDb, disconnectDB } from '@/config';
+import { loadEnv, connectDb, disconnectDB, connectRedis } from '@/config';
 
 loadEnv();
 
 import { handleApplicationErrors } from '@/middlewares';
-import { usersRouter, authenticationRouter, eventsRouter, enrollmentsRouter } from '@/routers';
+
+export { paymentsRouter };
+import { usersRouter, authenticationRouter, eventsRouter, enrollmentsRouter, paymentsRouter } from '@/routers';
 
 const app = express();
 app
@@ -19,10 +21,12 @@ app
   .use('/auth', authenticationRouter)
   .use('/event', eventsRouter)
   .use('/enrollments', enrollmentsRouter)
+  .use('/payments', paymentsRouter)
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
   connectDb();
+  connectRedis();
   return Promise.resolve(app);
 }
 
