@@ -34,7 +34,8 @@
     "dev:docker:down": "npm run dev:compose -- down",
     "dev": "NODE_ENV=development nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register ./src/server.ts' -e ts",
     "ci:build": "docker-compose -f docker-compose.test.yml build",
-    "ci:test": "docker-compose -f docker-compose.test.yml run drivent-test bash -c 'npm run test:migration:run && npm test'"
+    "ci:test": "docker-compose -f docker-compose.test.yml run drivent-test bash -c 'npm run test:migration:run && npm test'",
+    "redis": "redis-server"
   },
   "keywords": [
     "driven.t",
@@ -95,6 +96,7 @@
     "http-status": "^1.5.2",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
+    "redis": "^4.1.0",
     "reflect-metadata": "^0.1.13"
   }
 }
