@@ -75,10 +75,7 @@ model Payment {
   Enrollment          Enrollment @relation(fields: [enrollmentId], references: [id])
   ticketModality      TicketAccomodation
   ticketAccomodation  Boolean    @db.Boolean
-  cardNumber          String     @db.VarChar(255)
-  name                String     @db.VarChar(255)
-  expireDate          String     @db.VarChar(255)
-  cvc                 String     @db.VarChar(255)
+  ticketValue         String     @db.VarChar(255)
   createdAt           DateTime   @default(now())
   updatedAt           DateTime   @updatedAt
 }
