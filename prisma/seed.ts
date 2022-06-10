@@ -16,8 +16,8 @@ async function main() {
     });
   }
 
-  const hotel = await prisma.hotels.findFirst();
-  if (!hotel) {
+  const hotels = await prisma.hotels.findMany();
+  if (!hotels) {
     await prisma.hotels.createMany({
       data: [
         {
@@ -39,9 +39,9 @@ async function main() {
     });
   }
 
-  const hotels = await prisma.hotels.findMany();
+  
   const bedrooms = await prisma.bedrooms.findMany();
-  if (!bedrooms) {
+  if (bedrooms.length === 0) {
     for (let i = 0; i < 16; i++) {
       await prisma.bedrooms.create({
         data: {
@@ -74,31 +74,31 @@ async function main() {
     for (let i = 0; i < bedrooms.length; i++) {
       if (bedrooms[i].type === 'SINGLE') {
         await prisma.vacancies.create({
-          data: { isAvailable: false, bedroomId: bedrooms[i].id },
+          data: { isAvailable: true, bedroomId: bedrooms[i].id, hotelId: bedrooms[i].hotelId },
         });
       }
 
       if (bedrooms[i].type === 'DOUBLE') {
         await prisma.vacancies.create({
-          data: { isAvailable: false, bedroomId: bedrooms[i].id },
+          data: { isAvailable: true, bedroomId: bedrooms[i].id, hotelId: bedrooms[i].hotelId },
         });
 
         await prisma.vacancies.create({
-          data: { isAvailable: false, bedroomId: bedrooms[i].id },
+          data: { isAvailable: true, bedroomId: bedrooms[i].id, hotelId: bedrooms[i].hotelId },
         });
       }
 
       if (bedrooms[i].type === 'TRIPLE') {
         await prisma.vacancies.create({
-          data: { isAvailable: false, bedroomId: bedrooms[i].id },
+          data: { isAvailable: true, bedroomId: bedrooms[i].id, hotelId: bedrooms[i].hotelId },
         });
 
         await prisma.vacancies.create({
-          data: { isAvailable: false, bedroomId: bedrooms[i].id },
+          data: { isAvailable: true, bedroomId: bedrooms[i].id, hotelId: bedrooms[i].hotelId },
         });
 
         await prisma.vacancies.create({
-          data: { isAvailable: false, bedroomId: bedrooms[i].id },
+          data: { isAvailable: true, bedroomId: bedrooms[i].id, hotelId: bedrooms[i].hotelId },
         });
       }
     }
