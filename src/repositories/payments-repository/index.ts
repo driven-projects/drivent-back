@@ -7,8 +7,17 @@ async function create(data: ticketInfo) {
   });
 }
 
+async function get(userId: number) {
+  return prisma.ticketData.findUnique({
+    where: {
+      userId: userId,
+    },
+  });
+}
+
 const paymentsRepository = {
   create,
+  get,
 };
 
 export default paymentsRepository;
