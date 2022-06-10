@@ -80,10 +80,11 @@ model ticketData {
 }
 
 model Hotels {
-  id       Int        @id @default(autoincrement())
-  name     String     @db.VarChar(255)
-  image    String     @db.VarChar(255)
-  Bedrooms Bedrooms[]
+  id        Int         @id @default(autoincrement())
+  name      String      @db.VarChar(255)
+  image     String      @db.VarChar(255)
+  Bedrooms  Bedrooms[]
+  Vacancies Vacancies[]
 }
 
 model Bedrooms {
@@ -99,8 +100,10 @@ model Vacancies {
   id          Int      @id @default(autoincrement())
   isAvailable Boolean
   bedroomId   Int
-  userId      Int?      @unique
+  hotelId     Int
+  userId      Int?     @unique
   Bedroom     Bedrooms @relation(fields: [bedroomId], references: [id])
+  Hotel       Hotels   @relation(fields: [hotelId], references: [id])
   User        User?    @relation(fields: [userId], references: [id])
 }
 

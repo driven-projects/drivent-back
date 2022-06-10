@@ -12,7 +12,7 @@ async function getHotels() {
       },
     });
 
-    await redis.set('hotels', JSON.stringify(hotels), { EX: 1 });
+    await redis.set('hotels', JSON.stringify(hotels), { EX: 300000 });
 
     return hotels;
   }
@@ -20,8 +20,19 @@ async function getHotels() {
   return JSON.parse(cachedHotels);
 }
 
+async function getVacancies(hotelId: number) {
+  return await prisma.vacancies.count({
+    where: { hotelId },
+    select: {
+      _all: true,
+      userId: true,
+    },
+  });
+}
+
 const hotelsRepository = {
   getHotels,
+  getVacancies,
 };
 
 export default hotelsRepository;
