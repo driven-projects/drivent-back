@@ -51,6 +51,7 @@ model Enrollment {
   Address   Address[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  bed       bed[]
 }
 
 model Address {
@@ -66,4 +67,45 @@ model Address {
   Enrollment    Enrollment @relation(fields: [enrollmentId], references: [id])
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
+}
+
+model hotel {
+  id                 Int                  @id @default(autoincrement())
+  name               String               @unique @db.VarChar(255)
+  imageUrl           String               @db.VarChar(255)
+  accomodationsHotel accomodationsHotel[]
+  room               room[]
+}
+
+model accomodationsType {
+  id                 Int                  @id @default(autoincrement())
+  type               String               @unique
+  accomodationsHotel accomodationsHotel[]
+  room               room[]
+}
+
+model accomodationsHotel {
+  hotelId             Int
+  hotel               hotel             @relation(fields: [hotelId], references: [id])
+  accomodationsTypeId Int
+  accomodationsType   accomodationsType @relation(fields: [accomodationsTypeId], references: [id])
+
+  @@id([hotelId, accomodationsTypeId])
+}
+
+model room {
+  id                  Int               @id @default(autoincrement())
+  accomodationsTypeId Int
+  accomodationsType   accomodationsType @relation(fields: [accomodationsTypeId], references: [id])
+  hotelId             Int
+  hotel               hotel             @relation(fields: [hotelId], references: [id])
+  bed                 bed[]
+}
+
+model bed {
+  id           Int         @id @default(autoincrement())
+  roomId       Int
+  room         room        @relation(fields: [roomId], references: [id])
+  Enrollment   Enrollment? @relation(fields: [enrollmentId], references: [id])
+  enrollmentId Int?
 }
