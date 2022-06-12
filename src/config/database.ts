@@ -18,7 +18,7 @@ export const redis = createClient({
 export async function initRedis(): Promise<void> {
   await redis.connect();
 
-  const events = redis.get('events');
+  const events = await redis.get('events');
   if (!events) {
     const data = {
       title: 'Driven.t',
@@ -30,4 +30,6 @@ export async function initRedis(): Promise<void> {
 
     redis.set('events', JSON.stringify(data));
   }
+
+  return JSON.parse(events);
 }
