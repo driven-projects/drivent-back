@@ -21,9 +21,21 @@ async function create(data: Prisma.UserUncheckedCreateInput) {
   });
 }
 
+async function updateUser(email: string) {
+  return prisma.user.update({
+    where: {
+      email,
+    },
+    data: {
+      isGithubUser: true,
+    },
+  });
+}
+
 const userRepository = {
   findByEmail,
   create,
+  updateUser,
 };
 
 export default userRepository;

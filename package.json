@@ -60,6 +60,7 @@
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "^17.0.34",
     "@types/supertest": "^2.0.12",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
     "dotenv-cli": "^5.1.0",
@@ -86,6 +87,7 @@
   "dependencies": {
     "@brazilian-utils/brazilian-utils": "^1.0.0-rc.12",
     "@prisma/client": "^3.14.0",
+    "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dayjs": "^1.11.2",
@@ -97,6 +99,7 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "redis": "^4.1.0",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "uuid": "^8.3.2"
   }
 }
