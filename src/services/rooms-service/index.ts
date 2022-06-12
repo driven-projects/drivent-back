@@ -34,6 +34,10 @@ async function findEnrollment(userId: number) {
 
   return enrollment;
 }
+async function deleteBedRental(roomId: number, enrollmentId: number) {
+  verifyEnrollment(enrollmentId);
+  await roomRepository.deleteRentalBedByRoomAndEnrollmentId(roomId, enrollmentId);
+}
 
 async function verifyRoomByEnrollment(enrollmentId: number) {
   const bed = await roomRepository.findRoomByEnrollment(enrollmentId);
@@ -49,6 +53,7 @@ const roomsService = {
   verifyEnrollment,
   findEnrollment,
   verifyRoomByEnrollment,
+  deleteBedRental,
 };
 
 export default roomsService;
