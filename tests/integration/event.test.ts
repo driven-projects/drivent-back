@@ -25,12 +25,11 @@ describe('GET /event', () => {
 
     expect(response.status).toBe(httpStatus.OK);
     expect(response.body).toEqual({
-      id: event.id,
       title: event.title,
       backgroundImageUrl: event.backgroundImageUrl,
       logoImageUrl: event.logoImageUrl,
-      startsAt: event.startsAt.toISOString(),
-      endsAt: event.endsAt.toISOString(),
+      startsAt: event.startsAt,
+      endsAt: event.endsAt,
     });
   });
 });
