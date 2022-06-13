@@ -41,10 +41,23 @@ async function selectBed(bedId: number, enrollmentId: number) {
   });
 }
 
+async function deleteRentalBedByRoomAndEnrollmentId(roomId: number, enrollmentId: number) {
+  await prisma.bed.updateMany({
+    where: {
+      roomId,
+      enrollmentId,
+    },
+    data: {
+      enrollmentId: null,
+    },
+  });
+}
+
 const roomRepository = {
   findRoomById,
   selectBed,
   findRoomByEnrollment,
+  deleteRentalBedByRoomAndEnrollmentId,
 };
 
 export default roomRepository;
