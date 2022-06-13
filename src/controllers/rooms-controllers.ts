@@ -26,3 +26,11 @@ export async function findSelectedRoom(req: Request, res: Response) {
 
   return res.status(httpStatus.OK).send(bed);
 }
+
+export async function deleteBedRental(req: Request, res: Response) {
+  const { roomId, enrollmentId } = req.body;
+
+  await roomsService.deleteBedRental(roomId, enrollmentId);
+
+  return res.sendStatus(httpStatus.OK);
+}
