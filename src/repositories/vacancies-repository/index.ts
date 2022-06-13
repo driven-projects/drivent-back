@@ -8,3 +8,11 @@ export async function patchVacancy(data: any) {
     data,
   });
 }
+
+export async function findVacancyByUserId(userId: number) {
+  return prisma.vacancies.findUnique({
+    where: {
+      userId: userId,
+    },
+  });
+}

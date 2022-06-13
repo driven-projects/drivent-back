@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { authenticateToken } from '@/middlewares';
-import { paymentsRouter } from './payments-router';
-import { patchVacancy } from '@/controllers';
+import { findVacancy, patchVacancy } from '@/controllers';
 
 const vacanciesRouter = Router();
 
-paymentsRouter.patch('/', authenticateToken, patchVacancy);
+vacanciesRouter.patch('/', authenticateToken, patchVacancy);
+vacanciesRouter.get('/', authenticateToken, findVacancy);
 
 export { vacanciesRouter };
