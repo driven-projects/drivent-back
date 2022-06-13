@@ -2,8 +2,9 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  const hotels = await prisma.hotels.findMany();
-  if (!hotels) {
+  let hotels = await prisma.hotels.findMany();
+  if (hotels.length === 0) {
+    console.log('To entrando no if');
     await prisma.hotels.createMany({
       data: [
         {
@@ -24,9 +25,10 @@ async function main() {
       ],
     });
   }
+  hotels = await prisma.hotels.findMany();
+  console.log(hotels);
+  let bedrooms = await prisma.bedrooms.findMany();
 
-  
-  const bedrooms = await prisma.bedrooms.findMany();
   if (bedrooms.length === 0) {
     for (let i = 0; i < 16; i++) {
       await prisma.bedrooms.create({
@@ -54,7 +56,7 @@ async function main() {
       });
     }
   }
-
+  bedrooms = await prisma.bedrooms.findMany();
   const vacancy = await prisma.vacancies.findMany();
   if (vacancy.length === 0) {
     for (let i = 0; i < bedrooms.length; i++) {
@@ -89,8 +91,6 @@ async function main() {
       }
     }
   }
-
-  console.log({ event, bedrooms, vacancy });
 }
 
 main()

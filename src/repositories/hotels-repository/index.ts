@@ -12,6 +12,7 @@ async function getHotels() {
       },
     });
 
+    if (hotels.length === 0) return;
     await redis.set('hotels', JSON.stringify(hotels), { EX: 300000 });
 
     return hotels;
