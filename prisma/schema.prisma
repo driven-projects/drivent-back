@@ -49,6 +49,7 @@ model Enrollment {
   userId    Int       @unique
   User      User      @relation(fields: [userId], references: [id])
   Address   Address[]
+  Payment   Payment[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   bed       bed[]
@@ -69,6 +70,21 @@ model Address {
   updatedAt     DateTime   @updatedAt
 }
 
+model Payment {
+  id                  Int        @id @default(autoincrement())
+  enrollmentId        Int        @unique
+  Enrollment          Enrollment @relation(fields: [enrollmentId], references: [id])
+  ticketModality      TicketAccomodation
+  ticketAccomodation  Boolean    @db.Boolean
+  ticketValue         String     @db.VarChar(255)
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+}
+
+enum TicketAccomodation {
+  PRESENTIAL
+  ONLINE
+}
 model hotel {
   id                 Int                  @id @default(autoincrement())
   name               String               @unique @db.VarChar(255)

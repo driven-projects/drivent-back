@@ -10,6 +10,7 @@ module.exports = {
     'plugin:prettier/recommended', // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
   ],
   rules: {
+    'import/export': 0,
     'no-console': 'error',
     'import/no-unresolved': 'error',
     'import/order': 'off',
