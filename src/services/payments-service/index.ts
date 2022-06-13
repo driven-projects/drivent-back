@@ -6,7 +6,7 @@ export async function create(ticket: ticketInfo) {
   await paymentsRepository.create(ticket);
 }
 
-async function get(id: number) {
+export async function get(id: number) {
   const payment = await paymentsRepository.get(id);
 
   if (!payment) throw notFoundError();
