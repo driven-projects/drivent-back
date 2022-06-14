@@ -28,6 +28,15 @@ services:
     volumes:
       - /usr/local/drivent-pg/data:/var/lib/postgresql/data
     command: postgres -p ${POSTGRES_PORT}
+  drivent-redis:
+    container_name: drivent-redis
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - drivent-redis:/data
   drivent-nginx:
     image: nginx
     ports:
