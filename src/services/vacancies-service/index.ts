@@ -1,6 +1,7 @@
 import { findVacancyByUserId, patchVacancy } from '@/repositories/vacancies-repository';
+import { Vacancies } from '@prisma/client';
 
-export async function updateVacancy(data: any) {
+export async function updateVacancy(data: Vacancies) {
   const userReserve = await findVacancyByUser(data.userId);
 
   if (userReserve) {

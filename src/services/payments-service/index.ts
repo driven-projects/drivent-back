@@ -19,4 +19,4 @@ const paymentsService = {
   get,
 };
 
-// export default paymentsService;
+export default paymentsService;
