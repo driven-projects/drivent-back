@@ -53,6 +53,7 @@ model Enrollment {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   bed       bed[]
+  seat      seat[]
 }
 
 model Address {
@@ -71,20 +72,21 @@ model Address {
 }
 
 model Payment {
-  id                  Int        @id @default(autoincrement())
-  enrollmentId        Int        @unique
-  Enrollment          Enrollment @relation(fields: [enrollmentId], references: [id])
-  ticketModality      TicketAccomodation
-  ticketAccomodation  Boolean    @db.Boolean
-  ticketValue         String     @db.VarChar(255)
-  createdAt           DateTime   @default(now())
-  updatedAt           DateTime   @updatedAt
+  id                 Int                @id @default(autoincrement())
+  enrollmentId       Int                @unique
+  Enrollment         Enrollment         @relation(fields: [enrollmentId], references: [id])
+  ticketModality     TicketAccomodation
+  ticketAccomodation Boolean            @db.Boolean
+  ticketValue        String             @db.VarChar(255)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
 }
 
 enum TicketAccomodation {
   PRESENTIAL
   ONLINE
 }
+
 model hotel {
   id                 Int                  @id @default(autoincrement())
   name               String               @unique @db.VarChar(255)
@@ -124,4 +126,32 @@ model bed {
   room         room        @relation(fields: [roomId], references: [id])
   Enrollment   Enrollment? @relation(fields: [enrollmentId], references: [id])
   enrollmentId Int?
+}
+
+model location {
+  id       Int        @id @default(autoincrement())
+  name     String     @unique @db.VarChar(255)
+  activity activity[]
+  seat     seat[]
+}
+
+model seat {
+  id           Int         @id @default(autoincrement())
+  Enrollment   Enrollment? @relation(fields: [enrollmentId], references: [id])
+  enrollmentId Int?
+  activity     activity    @relation(fields: [activityId], references: [id])
+  activityId   Int
+  location     location    @relation(fields: [locationId], references: [id])
+  locationId   Int
+}
+
+model activity {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(255)
+  date       DateTime @db.Date
+  startTime  DateTime @db.Time(0)
+  endTime    DateTime @db.Time(0)
+  location   location @relation(fields: [locationId], references: [id])
+  locationId Int
+  seat       seat[]
 }
