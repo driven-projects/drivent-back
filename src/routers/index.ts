@@ -5,3 +5,4 @@ export * from './enrollments-router';
 export * from './payments-router';
 export * from './hotels-router';
 export * from './rooms-router';
+export * from './activities-router';
