@@ -89,46 +89,47 @@ async function main() {
 
   await prisma.accomodationsHotel.createMany({
     data: [
-      { hotelId: hotel1.id, accomodationsTypeId: single.id },
-      { hotelId: hotel1.id, accomodationsTypeId: double.id },
-      { hotelId: hotel2.id, accomodationsTypeId: single.id },
-      { hotelId: hotel2.id, accomodationsTypeId: double.id },
-      { hotelId: hotel2.id, accomodationsTypeId: triple.id },
-      { hotelId: hotel3.id, accomodationsTypeId: single.id },
-      { hotelId: hotel3.id, accomodationsTypeId: double.id },
+      { hotelId: hotel1?.id as number, accomodationsTypeId: single?.id  as number},
+      { hotelId: hotel1?.id as number, accomodationsTypeId: double?.id  as number},
+      { hotelId: hotel2?.id as number, accomodationsTypeId: single?.id  as number},
+      { hotelId: hotel2?.id as number, accomodationsTypeId: double?.id  as number},
+      { hotelId: hotel2?.id as number, accomodationsTypeId: triple?.id  as number},
+      { hotelId: hotel3?.id as number, accomodationsTypeId: single?.id  as number},
+      { hotelId: hotel3?.id as number, accomodationsTypeId: double?.id  as number},
     ],
+    skipDuplicates: true,
   });
 
   await prisma.room.createMany({
     data: [
-      { hotelId: hotel1.id, accomodationsTypeId: single.id },
-      { hotelId: hotel1.id, accomodationsTypeId: single.id },
-      { hotelId: hotel1.id, accomodationsTypeId: single.id },
-      { hotelId: hotel1.id, accomodationsTypeId: single.id },
-      { hotelId: hotel1.id, accomodationsTypeId: single.id },
-      { hotelId: hotel1.id, accomodationsTypeId: double.id },
-      { hotelId: hotel1.id, accomodationsTypeId: double.id },
-      { hotelId: hotel1.id, accomodationsTypeId: double.id },
-      { hotelId: hotel1.id, accomodationsTypeId: double.id },
-      { hotelId: hotel1.id, accomodationsTypeId: double.id },
-      { hotelId: hotel1.id, accomodationsTypeId: double.id },
-      { hotelId: hotel2.id, accomodationsTypeId: single.id },
-      { hotelId: hotel2.id, accomodationsTypeId: single.id },
-      { hotelId: hotel2.id, accomodationsTypeId: single.id },
-      { hotelId: hotel2.id, accomodationsTypeId: single.id },
-      { hotelId: hotel2.id, accomodationsTypeId: double.id },
-      { hotelId: hotel2.id, accomodationsTypeId: double.id },
-      { hotelId: hotel2.id, accomodationsTypeId: double.id },
-      { hotelId: hotel2.id, accomodationsTypeId: double.id },
-      { hotelId: hotel2.id, accomodationsTypeId: triple.id },
-      { hotelId: hotel2.id, accomodationsTypeId: triple.id },
-      { hotelId: hotel2.id, accomodationsTypeId: triple.id },
-      { hotelId: hotel2.id, accomodationsTypeId: triple.id },
-      { hotelId: hotel2.id, accomodationsTypeId: triple.id },
-      { hotelId: hotel3.id, accomodationsTypeId: single.id },
-      { hotelId: hotel3.id, accomodationsTypeId: single.id },
-      { hotelId: hotel3.id, accomodationsTypeId: double.id },
-      { hotelId: hotel3.id, accomodationsTypeId: double.id },
+      { hotelId: hotel1?.id as number, accomodationsTypeId: single?.id as number },
+      { hotelId: hotel1?.id as number, accomodationsTypeId: single?.id as number },
+      { hotelId: hotel1?.id as number, accomodationsTypeId: single?.id as number },
+      { hotelId: hotel1?.id as number, accomodationsTypeId: single?.id as number },
+      { hotelId: hotel1?.id as number, accomodationsTypeId: single?.id as number },
+      { hotelId: hotel1?.id as number, accomodationsTypeId: double?.id as number },
+      { hotelId: hotel1?.id as number, accomodationsTypeId: double?.id as number },
+      { hotelId: hotel1?.id as number, accomodationsTypeId: double?.id as number },
+      { hotelId: hotel1?.id as number, accomodationsTypeId: double?.id as number },
+      { hotelId: hotel1?.id as number, accomodationsTypeId: double?.id as number },
+      { hotelId: hotel1?.id as number, accomodationsTypeId: double?.id as number },
+      { hotelId: hotel2?.id as number, accomodationsTypeId: single?.id as number },
+      { hotelId: hotel2?.id as number, accomodationsTypeId: single?.id as number },
+      { hotelId: hotel2?.id as number, accomodationsTypeId: single?.id as number },
+      { hotelId: hotel2?.id as number, accomodationsTypeId: single?.id as number },
+      { hotelId: hotel2?.id as number, accomodationsTypeId: double?.id as number },
+      { hotelId: hotel2?.id as number, accomodationsTypeId: double?.id as number },
+      { hotelId: hotel2?.id as number, accomodationsTypeId: double?.id as number },
+      { hotelId: hotel2?.id as number, accomodationsTypeId: double?.id as number },
+      { hotelId: hotel2?.id as number, accomodationsTypeId: triple?.id as number },
+      { hotelId: hotel2?.id as number, accomodationsTypeId: triple?.id as number },
+      { hotelId: hotel2?.id as number, accomodationsTypeId: triple?.id as number },
+      { hotelId: hotel2?.id as number, accomodationsTypeId: triple?.id as number },
+      { hotelId: hotel2?.id as number, accomodationsTypeId: triple?.id as number },
+      { hotelId: hotel3?.id as number, accomodationsTypeId: single?.id as number },
+      { hotelId: hotel3?.id as number, accomodationsTypeId: single?.id as number },
+      { hotelId: hotel3?.id as number, accomodationsTypeId: double?.id as number },
+      { hotelId: hotel3?.id as number, accomodationsTypeId: double?.id as number },
     ],
   });
 
@@ -160,7 +161,13 @@ async function main() {
   });
 
   await prisma.location.createMany({
-    data: [{ name: 'Auditório Principal' }, { name: 'Auditório Lateral' }, { name: 'Sala de Workshop' }],
+    data: [
+      { name: 'Auditório Principal' },
+      { name: 'Auditório Lateral' }, 
+      { name: 'Sala de Workshop' }
+    ],
+    skipDuplicates: true,
+
   });
 
   const location1 = await prisma.location.findFirst({ where: { name: 'Auditório Principal' } });
@@ -686,6 +693,7 @@ async function main() {
       { activityId: activity9.id, locationId: activity9.locationId },
       { activityId: activity9.id, locationId: activity9.locationId },
     ],
+    skipDuplicates: true,
   });
 }
 
