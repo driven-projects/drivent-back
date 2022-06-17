@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "activity" ALTER COLUMN "startTime" SET DATA TYPE TIME(0),
+ALTER COLUMN "endTime" SET DATA TYPE TIME(0);

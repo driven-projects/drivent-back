@@ -5,3 +5,4 @@ export * from './enrollments-controller';
 export * from './payments-controller';
 export * from './hotels-controller';
 export * from './rooms-controllers';
+export * from './activities-controller';
