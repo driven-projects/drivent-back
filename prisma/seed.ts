@@ -131,25 +131,26 @@ async function main() {
       { hotelId: hotel3?.id as number, accomodationsTypeId: double?.id as number },
       { hotelId: hotel3?.id as number, accomodationsTypeId: double?.id as number },
     ],
+    skipDuplicates: true,
   });
 
   const rooms = await prisma.room.findMany();
 
   rooms.forEach(async (room) => {
     switch (room.accomodationsTypeId) {
-      case single.id:
+      case single?.id:
         await prisma.bed.createMany({
           data: [{ roomId: room.id }],
         });
         break;
 
-      case double.id:
+      case double?.id:
         await prisma.bed.createMany({
           data: [{ roomId: room.id }, { roomId: room.id }],
         });
         break;
 
-      case triple.id:
+      case triple?.id:
         await prisma.bed.createMany({
           data: [{ roomId: room.id }, { roomId: room.id }, { roomId: room.id }],
         });
@@ -191,7 +192,7 @@ async function main() {
     date: dayjs('10/22/2022').toISOString(),
     startTime: time09,
     endTime: time10,
-    locationId: location1.id,
+    locationId: location1?.id as number,
   };
 
   const mockActivity2 = {
@@ -199,7 +200,7 @@ async function main() {
     date: dayjs('10/22/2022').toISOString(),
     startTime: time10,
     endTime: time11,
-    locationId: location1.id,
+    locationId: location1?.id as number,
   };
 
   const mockActivity3 = {
@@ -207,21 +208,21 @@ async function main() {
     date: dayjs('10/22/2022').toISOString(),
     startTime: time09,
     endTime: time12,
-    locationId: location2.id,
+    locationId: location2?.id as number,
   };
   const mockActivity4 = {
     name: 'Palestra: redstone? estruturando sua primeira lógica',
     date: dayjs('10/22/2022').toISOString(),
     startTime: time09,
     endTime: time11,
-    locationId: location3.id,
+    locationId: location3?.id as number,
   };
   const mockActivity5 = {
     name: 'Palestra: LoL, diversão ou vicio?',
     date: dayjs('10/22/2022').toISOString(),
     startTime: time13,
     endTime: time14,
-    locationId: location3.id,
+    locationId: location3?.id as number,
   };
 
   const mockActivity6 = {
@@ -229,7 +230,7 @@ async function main() {
     date: dayjs('10/23/2022').toISOString(),
     startTime: time09,
     endTime: time10,
-    locationId: location1.id,
+    locationId: location1?.id as number,
   };
 
   const mockActivity7 = {
@@ -237,7 +238,7 @@ async function main() {
     date: dayjs('10/24/2022').toISOString(),
     startTime: time10,
     endTime: time11,
-    locationId: location1.id,
+    locationId: location1?.id as number,
   };
 
   const mockActivity8 = {
@@ -245,25 +246,25 @@ async function main() {
     date: dayjs('10/24/2022').toISOString(),
     startTime: time09,
     endTime: time12,
-    locationId: location2.id,
+    locationId: location2?.id as number,
   };
   const mockActivity9 = {
     name: 'Palestra: redstone? estruturando sua primeira lógica',
     date: dayjs('10/23/2022').toISOString(),
     startTime: time09,
     endTime: time11,
-    locationId: location3.id,
+    locationId: location3?.id as number,
   };
 
-  const activity1 = await prisma.activity.create({ data: mockActivity1 });
-  const activity2 = await prisma.activity.create({ data: mockActivity2 });
-  const activity3 = await prisma.activity.create({ data: mockActivity3 });
-  const activity4 = await prisma.activity.create({ data: mockActivity4 });
-  const activity5 = await prisma.activity.create({ data: mockActivity5 });
-  const activity6 = await prisma.activity.create({ data: mockActivity6 });
-  const activity7 = await prisma.activity.create({ data: mockActivity7 });
-  const activity8 = await prisma.activity.create({ data: mockActivity8 });
-  const activity9 = await prisma.activity.create({ data: mockActivity9 });
+  const activity1 = await prisma.activity.create({ data: mockActivity1});
+  const activity2 = await prisma.activity.create({ data: mockActivity2});
+  const activity3 = await prisma.activity.create({ data: mockActivity3});
+  const activity4 = await prisma.activity.create({ data: mockActivity4});
+  const activity5 = await prisma.activity.create({ data: mockActivity5});
+  const activity6 = await prisma.activity.create({ data: mockActivity6});
+  const activity7 = await prisma.activity.create({ data: mockActivity7});
+  const activity8 = await prisma.activity.create({ data: mockActivity8});
+  const activity9 = await prisma.activity.create({ data: mockActivity9});
 
   await prisma.seat.createMany({
     data: [
