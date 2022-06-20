@@ -12,3 +12,10 @@ export async function seatsByActivityAndLocationId(req: Request, res: Response) 
   const seats = await activitiesService.seatsByActivityAndLocationId(activityId, locationId);
   return res.status(httpStatus.OK).send(seats);
 }
+export async function newSubscriptionSeat(req: Request, res: Response) {
+  const { activityId, locationId, enrollmentId } = req.body;
+
+  await activitiesService.newSubscriptionSeat(activityId, locationId, enrollmentId);
+
+  return res.sendStatus(httpStatus.OK);
+}
