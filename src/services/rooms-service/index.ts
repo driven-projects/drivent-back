@@ -1,7 +1,7 @@
 import { conflictError, notFoundError } from '@/errors';
 import enrollmentRepository from '@/repositories/enrollment-repository';
 import roomRepository from '@/repositories/room-repository';
-import { bed, room } from '@prisma/client';
+import { bed } from '@prisma/client';
 
 async function findRoom(id: number) {
   const room = await roomRepository.findRoomById(id);

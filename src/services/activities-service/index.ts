@@ -6,8 +6,14 @@ async function getAllActivities(): Promise<activity[]> {
   return activities;
 }
 
+async function seatsByActivityAndLocationId(activityId: number, locationId: number) {
+  const activities = await activityRepository.seatsByActivityAndLocationId(activityId, locationId);
+  return activities;
+}
+
 const activitiesService = {
   getAllActivities,
+  seatsByActivityAndLocationId,
 };
 
 export default activitiesService;
