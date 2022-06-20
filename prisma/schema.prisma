@@ -49,8 +49,11 @@ model Enrollment {
   userId    Int       @unique
   User      User      @relation(fields: [userId], references: [id])
   Address   Address[]
+  Payment   Payment[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  bed       bed[]
+  seat      seat[]
 }
 
 model Address {
@@ -66,4 +69,89 @@ model Address {
   Enrollment    Enrollment @relation(fields: [enrollmentId], references: [id])
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
+}
+
+model Payment {
+  id                 Int                @id @default(autoincrement())
+  enrollmentId       Int                @unique
+  Enrollment         Enrollment         @relation(fields: [enrollmentId], references: [id])
+  ticketModality     TicketAccomodation
+  ticketAccomodation Boolean            @db.Boolean
+  ticketValue        String             @db.VarChar(255)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+}
+
+enum TicketAccomodation {
+  PRESENTIAL
+  ONLINE
+}
+
+model hotel {
+  id                 Int                  @id @default(autoincrement())
+  name               String               @unique @db.VarChar(255)
+  imageUrl           String               @db.VarChar(255)
+  accomodationsHotel accomodationsHotel[]
+  room               room[]
+}
+
+model accomodationsType {
+  id                 Int                  @id @default(autoincrement())
+  type               String               @unique
+  accomodationsHotel accomodationsHotel[]
+  room               room[]
+}
+
+model accomodationsHotel {
+  hotelId             Int
+  hotel               hotel             @relation(fields: [hotelId], references: [id])
+  accomodationsTypeId Int
+  accomodationsType   accomodationsType @relation(fields: [accomodationsTypeId], references: [id])
+
+  @@id([hotelId, accomodationsTypeId])
+}
+
+model room {
+  id                  Int               @id @default(autoincrement())
+  accomodationsTypeId Int
+  accomodationsType   accomodationsType @relation(fields: [accomodationsTypeId], references: [id])
+  hotelId             Int
+  hotel               hotel             @relation(fields: [hotelId], references: [id])
+  bed                 bed[]
+}
+
+model bed {
+  id           Int         @id @default(autoincrement())
+  roomId       Int
+  room         room        @relation(fields: [roomId], references: [id])
+  Enrollment   Enrollment? @relation(fields: [enrollmentId], references: [id])
+  enrollmentId Int?
+}
+
+model location {
+  id       Int        @id @default(autoincrement())
+  name     String     @unique @db.VarChar(255)
+  activity activity[]
+  seat     seat[]
+}
+
+model seat {
+  id           Int         @id @default(autoincrement())
+  Enrollment   Enrollment? @relation(fields: [enrollmentId], references: [id])
+  enrollmentId Int?
+  activity     activity    @relation(fields: [activityId], references: [id])
+  activityId   Int
+  location     location    @relation(fields: [locationId], references: [id])
+  locationId   Int
+}
+
+model activity {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(255)
+  date       DateTime @db.Date
+  startTime  DateTime @db.Time(0)
+  endTime    DateTime @db.Time(0)
+  location   location @relation(fields: [locationId], references: [id])
+  locationId Int
+  seat       seat[]
 }
