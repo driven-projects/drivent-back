@@ -12,6 +12,12 @@ async function seatsByActivityAndLocationId(activityId: number, locationId: numb
   const activities = await activityRepository.seatsByActivityAndLocationId(activityId, locationId);
   return activities;
 }
+
+async function seatsByEnrollmentId(enrollmentId: number) {
+  const seats = await activityRepository.seatsByEnrollmentId(enrollmentId);
+  return seats;
+}
+
 async function newSubscriptionSeat(activityId: number, locationId: number, enrollmentId: number) {
   const seat = await activityRepository.findFirstSeat(activityId, locationId);
   if (!seat) throw notFoundError();
@@ -25,11 +31,12 @@ const activitiesService = {
   getAllActivities,
   seatsByActivityAndLocationId,
   newSubscriptionSeat,
+  seatsByEnrollmentId,
 };
 
 export default activitiesService;
 
-async function checkThereIsConflictOrNot(enrollmentId: number, activityId: number) {
+async function checkThereIsConflictOrNot(enrollmentId: number, activityWantedId: number) {
   const seatsByUser = await activityRepository.findSeatsByEnrollmentId(enrollmentId);
   const activitiesIdByUserOnSystem: number[] = [];
 
@@ -45,35 +52,27 @@ async function checkThereIsConflictOrNot(enrollmentId: number, activityId: numbe
       activitiesByUser.push(activity);
     }
 
-    const activityWanted = await activityRepository.findFirstActivityById(activityId);
+    const activityWanted = await activityRepository.findFirstActivityById(activityWantedId);
     if (!activityWanted) throw notFoundError();
     const dateWanted = dayjs(activityWanted.date);
     const timeWantedInit = dayjs(activityWanted.startTime);
     const timeWantedEnd = dayjs(activityWanted.endTime);
 
     activitiesByUser.map((act) => {
-      //fazer as analizes de fato:
       const dateSystem = dayjs(act.date);
       const startTime = dayjs(act.startTime);
       const endTime = dayjs(act.endTime);
 
       const datediff = dateWanted.diff(dateSystem);
       if (!datediff) {
-        //  init < timeWantedInit < end  or  timeWantedInit=init or timeWantedInit = end
-        if (
-          (timeWantedInit.isAfter(startTime) && timeWantedInit.isBefore(endTime)) ||
-          !timeWantedInit.diff(startTime) ||
-          !timeWantedInit.diff(endTime)
-        )
+        if (timeWantedInit.isAfter(startTime) && timeWantedInit.isBefore(endTime))
+          throw conflictError('conflito de horario');
+        if (!timeWantedInit.diff(startTime) || !timeWantedInit.diff(endTime))
           throw conflictError('conflito de horario');
 
-        //  init < dateend <end or timeWantedEnd=init or timeWantedEnd = end
-        if (
-          (timeWantedEnd.isAfter(startTime) && timeWantedEnd.isBefore(endTime)) ||
-          !timeWantedEnd.diff(startTime) ||
-          !timeWantedEnd.diff(endTime)
-        )
+        if (timeWantedEnd.isAfter(startTime) && timeWantedEnd.isBefore(endTime))
           throw conflictError('conflito de horario');
+        if (!timeWantedEnd.diff(startTime) || !timeWantedEnd.diff(endTime)) throw conflictError('conflito de horario');
       }
     });
   }

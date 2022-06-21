@@ -27,6 +27,15 @@ async function seatsByActivityAndLocationId(activityId: number, locationId: numb
     },
   });
 }
+
+async function seatsByEnrollmentId(enrollmentId: number) {
+  return prisma.seat.findMany({
+    where: {
+      enrollmentId,
+    },
+  });
+}
+
 async function findFirstSeat(activityId: number, locationId: number) {
   return prisma.seat.findFirst({
     where: {
@@ -52,6 +61,7 @@ const activityRepository = {
   findFirstActivityById,
   findSeatsByEnrollmentId,
   seatsByActivityAndLocationId,
+  seatsByEnrollmentId,
   findFirstSeat,
   updateSeat,
 };
