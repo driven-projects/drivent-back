@@ -6,9 +6,13 @@ import httpStatus from "http-status";
 export async function getEnrollmentByUser(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
 
-  const enrollmentWithAddress = await enrollmentsService.getOneWithAddressByUserId(userId);
+  try {
+    const enrollmentWithAddress = await enrollmentsService.getOneWithAddressByUserId(userId);
 
-  return res.status(httpStatus.OK).send(enrollmentWithAddress);
+    return res.status(httpStatus.OK).send(enrollmentWithAddress);
+  } catch (error) {
+    return res.status(httpStatus.NO_CONTENT).send({});
+  }
 }
 
 export async function postCreateOrUpdateEnrollment(req: AuthenticatedRequest, res: Response) {

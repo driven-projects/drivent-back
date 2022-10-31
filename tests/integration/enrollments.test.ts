@@ -46,7 +46,7 @@ describe("GET /enrollments", () => {
 
       const response = await server.get("/enrollments").set("Authorization", `Bearer ${token}`);
 
-      expect(response.status).toBe(httpStatus.NOT_FOUND);
+      expect(response.status).toBe(httpStatus.NO_CONTENT);
     });
 
     it("should respond with status 200 and enrollment data with address when there is a enrollment for given user", async () => {

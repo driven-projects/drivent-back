@@ -1,16 +1,21 @@
 import authenticationService, { SignInParams } from "@/services/authentication-service";
 import { Request, Response } from "express";
 import httpStatus from "http-status";
-//For eslitn boundaries check only
+//For eslint boundaries check only
 //import sessionRepository from "@/repositories/session-repository";
 
 export async function singInPost(req: Request, res: Response) {
   const { email, password } = req.body as SignInParams;
-  sessionRepository.create({
-    userId: 0,
-    token: ""
-  });
-  const result = await authenticationService.signIn({ email, password });
+  // sessionRepository.create({
+  //   userId: 0,
+  //   token: ""
+  // });
 
-  res.status(httpStatus.OK).send(result);
+  try {
+    const result = await authenticationService.signIn({ email, password });
+
+    return res.status(httpStatus.OK).send(result);
+  } catch (error) {
+    return res.status(httpStatus.UNAUTHORIZED).send({});
+  }
 }
