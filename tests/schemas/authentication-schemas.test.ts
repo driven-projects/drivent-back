@@ -1,14 +1,14 @@
-import { signInSchema } from '@/schemas';
-import faker from '@faker-js/faker';
+import { signInSchema } from "@/schemas";
+import faker from "@faker-js/faker";
 
-describe('signInSchema', () => {
+describe("signInSchema", () => {
   const generateValidInput = () => ({
     email: faker.internet.email(),
     password: faker.internet.password(6),
   });
 
-  describe('when email is not valid', () => {
-    it('should return error if email is not present', () => {
+  describe("when email is not valid", () => {
+    it("should return error if email is not present", () => {
       const input = generateValidInput();
       delete input.email;
 
@@ -17,7 +17,7 @@ describe('signInSchema', () => {
       expect(error).toBeDefined();
     });
 
-    it('should return error if email does not follow valid email format', () => {
+    it("should return error if email does not follow valid email format", () => {
       const input = generateValidInput();
       input.email = faker.lorem.word();
 
@@ -27,8 +27,8 @@ describe('signInSchema', () => {
     });
   });
 
-  describe('when password is not valid', () => {
-    it('should return error if password is not present', () => {
+  describe("when password is not valid", () => {
+    it("should return error if password is not present", () => {
       const input = generateValidInput();
       delete input.password;
 
@@ -37,7 +37,7 @@ describe('signInSchema', () => {
       expect(error).toBeDefined();
     });
 
-    it('should return error if password is not a string', () => {
+    it("should return error if password is not a string", () => {
       const input = generateValidInput();
 
       const { error } = signInSchema.validate({ ...input, password: faker.datatype.number() });
@@ -46,7 +46,7 @@ describe('signInSchema', () => {
     });
   });
 
-  it('should return no error if input is valid', () => {
+  it("should return no error if input is valid", () => {
     const input = generateValidInput();
 
     const { error } = signInSchema.validate(input);

@@ -1,6 +1,6 @@
-import { CreateOrUpdateEnrollmentWithAddress } from '@/services/enrollments-service';
-import { getStates, isValidCEP, isValidCPF, isValidMobilePhone } from '@brazilian-utils/brazilian-utils';
-import Joi from 'joi';
+import { CreateOrUpdateEnrollmentWithAddress } from "@/services/enrollments-service";
+import { getStates, isValidCEP, isValidCPF, isValidMobilePhone } from "@brazilian-utils/brazilian-utils";
+import Joi from "joi";
 
 const cpfValidationSchema = Joi.string().length(11).custom(joiCpfValidation).required();
 
@@ -23,7 +23,7 @@ export const createEnrollmentSchema = Joi.object<CreateOrUpdateEnrollmentWithAdd
       .valid(...getStates().map((s) => s.code))
       .required(),
     neighborhood: Joi.string().required(),
-    addressDetail: Joi.string().allow(null, ''),
+    addressDetail: Joi.string().allow(null, ""),
   }).required(),
 });
 
@@ -31,7 +31,7 @@ function joiCpfValidation(value: string, helpers: Joi.CustomHelpers<string>) {
   if (!value) return value;
 
   if (!isValidCPF(value)) {
-    return helpers.error('any.invalid');
+    return helpers.error("any.invalid");
   }
 
   return value;
@@ -41,7 +41,7 @@ function JoiCepValidation(value: string, helpers: Joi.CustomHelpers<string>) {
   if (!value) return value;
 
   if (!isValidCEP(value)) {
-    return helpers.error('any.invalid');
+    return helpers.error("any.invalid");
   }
 
   return value;
@@ -51,7 +51,7 @@ function joiMobilePhoneValidation(value: string, helpers: Joi.CustomHelpers<stri
   if (!value) return value;
 
   if (!isValidMobilePhone(value)) {
-    return helpers.error('any.invalid');
+    return helpers.error("any.invalid");
   }
 
   return value;

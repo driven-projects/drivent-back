@@ -1,14 +1,14 @@
-import { createUserSchema } from '@/schemas';
-import faker from '@faker-js/faker';
+import { createUserSchema } from "@/schemas";
+import faker from "@faker-js/faker";
 
-describe('createUserSchema', () => {
+describe("createUserSchema", () => {
   const generateValidInput = () => ({
     email: faker.internet.email(),
     password: faker.internet.password(6),
   });
 
-  describe('when email is not valid', () => {
-    it('should return error if email is not present', () => {
+  describe("when email is not valid", () => {
+    it("should return error if email is not present", () => {
       const input = generateValidInput();
       delete input.email;
 
@@ -17,7 +17,7 @@ describe('createUserSchema', () => {
       expect(error).toBeDefined();
     });
 
-    it('should return error if email does not follow valid email format', () => {
+    it("should return error if email does not follow valid email format", () => {
       const input = generateValidInput();
       input.email = faker.lorem.word();
 
@@ -27,8 +27,8 @@ describe('createUserSchema', () => {
     });
   });
 
-  describe('when password is not valid', () => {
-    it('should return error if password is not present', () => {
+  describe("when password is not valid", () => {
+    it("should return error if password is not present", () => {
       const input = generateValidInput();
       delete input.password;
 
@@ -37,7 +37,7 @@ describe('createUserSchema', () => {
       expect(error).toBeDefined();
     });
 
-    it('should return error if password is shorter than 6 characters', () => {
+    it("should return error if password is shorter than 6 characters", () => {
       const input = generateValidInput();
       input.password = faker.lorem.word(5);
 
@@ -47,7 +47,7 @@ describe('createUserSchema', () => {
     });
   });
 
-  it('should return no error if input is valid', () => {
+  it("should return no error if input is valid", () => {
     const input = generateValidInput();
 
     const { error } = createUserSchema.validate(input);

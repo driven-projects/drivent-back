@@ -1,8 +1,8 @@
-import { ApplicationError } from '@/protocols';
+import { ApplicationError } from "@/protocols";
 
 export function invalidEmailError(email: string): ApplicationEmailError {
   return {
-    name: 'InvalidEmailError',
+    name: "InvalidEmailError",
     email: email,
     message: `"${email}" is not a valid email!`,
   };

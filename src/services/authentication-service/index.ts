@@ -1,10 +1,10 @@
-import sessionRepository from '@/repositories/session-repository';
-import userRepository from '@/repositories/user-repository';
-import { exclude } from '@/utils/prisma-utils';
-import { User } from '@prisma/client';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import { invalidCredentialsError } from './errors';
+import sessionRepository from "@/repositories/session-repository";
+import userRepository from "@/repositories/user-repository";
+import { exclude } from "@/utils/prisma-utils";
+import { User } from "@prisma/client";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { invalidCredentialsError } from "./errors";
 
 async function signIn(params: SignInParams): Promise<SignInResult> {
   const { email, password } = params;
@@ -16,7 +16,7 @@ async function signIn(params: SignInParams): Promise<SignInResult> {
   const token = await createSession(user.id);
 
   return {
-    user: exclude(user, 'password'),
+    user: exclude(user, "password"),
     token,
   };
 }
@@ -43,18 +43,18 @@ async function validatePasswordOrFail(password: string, userPassword: string) {
   if (!isPasswordValid) throw invalidCredentialsError();
 }
 
-export type SignInParams = Pick<User, 'email' | 'password'>;
+export type SignInParams = Pick<User, "email" | "password">;
 
 type SignInResult = {
-  user: Pick<User, 'id' | 'email'>;
+  user: Pick<User, "id" | "email">;
   token: string;
 };
 
-type GetUserOrFailResult = Pick<User, 'id' | 'email' | 'password'>;
+type GetUserOrFailResult = Pick<User, "id" | "email" | "password">;
 
 const authenticationService = {
   signIn,
 };
 
 export default authenticationService;
-export * from './errors';
+export * from "./errors";
