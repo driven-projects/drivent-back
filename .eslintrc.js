@@ -37,7 +37,11 @@ module.exports = {
       },
       {
         "type": "routers",
-        "pattern": "src/routes",
+        "pattern": "src/routers",
+      },
+      {
+        "type": "config",
+        "pattern": "src/config",
       } 
     ]
   },
@@ -87,7 +91,7 @@ module.exports = {
         },
         {
           "from": ["middlewares"],
-          "allow": ["services", "controllers"],
+          "allow": ["services", "controllers", "config"],
         },
         {
           "from": ["services"],
@@ -95,7 +99,11 @@ module.exports = {
         },
         {
           "from": ["routers"],
-          "allow": ["controllers"],
+          "allow": ["controllers", "middlewares"],
+        },
+        {
+          "from": ["repositories"],
+          "allow": ["config"],
         },
       ]
     }]
