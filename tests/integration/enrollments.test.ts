@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import httpStatus from "http-status";
 import * as jwt from "jsonwebtoken";
 import supertest from "supertest";
-import { createEnrollmentWithAddress, createUser } from "../factories";
+import { createEnrollmentWithAddress, createUser, createhAddressWithCEP } from "../factories";
 import { cleanDb, generateValidToken } from "../helpers";
 
 beforeAll(async () => {
@@ -75,6 +75,21 @@ describe("GET /enrollments", () => {
         },
       });
     });
+  });
+});
+
+describe("GET /enrollments/cep", () => {
+  it("should respond with status 200 when CEP is valid", async () => {
+    const response = await server.get("/enrollments/cep?cep=04538132");
+    const address = createhAddressWithCEP();
+
+    expect(response.status).toBe(httpStatus.OK);
+    expect(response.body).toEqual(address);
+  });
+  it("should respond with status 204 when CEP is valid", async () => {
+    const response = await server.get("/enrollments/cep?cep=00");
+
+    expect(response.status).toBe(httpStatus.NO_CONTENT);
   });
 });
 
@@ -169,6 +184,33 @@ describe("POST /enrollments", () => {
             phone: body.phone,
           }),
         );
+      });
+    });
+
+    describe("when body is invalid", () => {
+      const generateInvalidBody = () => ({
+        name: faker.name.findName(),
+        cpf: generateCPF(),
+        birthday: faker.date.past().toISOString(),
+        phone: "(21) 98999-9999",
+        address: {
+          cep: "00000-000",
+          street: faker.address.streetName(),
+          city: faker.address.city(),
+          number: faker.datatype.number().toString(),
+          state: faker.helpers.arrayElement(getStates()).code,
+          neighborhood: faker.address.secondaryAddress(),
+          addressDetail: faker.lorem.sentence(),
+        },
+      });
+
+      it("should respond with status 400 and create new enrollment if there is not any", async () => {
+        const body = generateInvalidBody();
+        const token = await generateValidToken();
+
+        const response = await server.post("/enrollments").set("Authorization", `Bearer ${token}`).send(body);
+
+        expect(response.status).toBe(httpStatus.BAD_REQUEST);
       });
     });
   });
